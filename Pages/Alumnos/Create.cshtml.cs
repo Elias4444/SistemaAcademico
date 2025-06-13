@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SistemaAcademico_V2.Data;
 using SistemaAcademico_V2.Models;
+using SistemaAcademico_V2.Servicios;
 
 namespace SistemaAcademico_V2.Pages.Alumnos
 {
@@ -19,8 +20,7 @@ namespace SistemaAcademico_V2.Pages.Alumnos
             {
                 return Page();
             }
-            Alumno.Id = DatosCompartidos.ObtenerNuevoIdAlumnos();
-            DatosCompartidos.Alumnos.Add(Alumno);
+            ServicioAlumno.AgregarAlumno(Alumno);
             return RedirectToPage("Index");
         }
     }

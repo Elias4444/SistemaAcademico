@@ -5,15 +5,16 @@ namespace SistemaAcademico_V2.Models
     public class Alumno
     {
         public int Id { get; set; }
-        [Required]
+        [Required(ErrorMessage = "El nombre es obligatorio")]
         public string Nombre { get; set; }
-        [Required]
+        [Required(ErrorMessage = "El apellido es obligatorio")]
         public string Apellido { get; set; }
-        [Required]
-        public int Dni { get; set; }
-        [Required]
+        [Required(ErrorMessage = "El DNI es obligatorio")]
+        public int? Dni { get; set; }
+        [Required(ErrorMessage = "El Email es obligatorio")]
         public string Email { get; set; }
-        [Required]
+        [Required(ErrorMessage = "La fecha de nacimiento es obligatoria")]
+        [Display(Name = "Fecha de Nacimiento")]
         public DateTime FechaDeNacimiento { get; set; }
 
     }

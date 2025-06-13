@@ -1,17 +1,20 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Runtime.InteropServices;
 
 namespace SistemaAcademico_V2.Models
 {
     public class Carrera
     {
         public int Id { get; set; }
-        [Required]
+        [Required(ErrorMessage = "El nombre es obligatorio")]
         public string Nombre { get; set; }
-        [Required]
-        public int DuracionAnios { get; set; }
-        [Required]
+        [Range(1, 7, ErrorMessage = "Duración entre 1 y 7 años")]
+        [Display(Name = "Duración en Años")]
+        public int? DuracionAnios { get; set; }
+        [StringLength(50, ErrorMessage = "Máximo 50 caracteres")]
+        [Display(Name = "Título otorgado")]
         public string TituloOtorgado { get; set; }
-        [Required]
+        [StringLength(30, MinimumLength = 5, ErrorMessage = "Debe tener entre 5 y 30 caracteres")]
         public string Modalidad { get; set; }
     }
 }
