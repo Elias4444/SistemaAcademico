@@ -39,30 +39,17 @@ namespace SistemaAcademico_V2.Servicios
             }
             return maxId + 1;
         }
-        public static Carrera BuscarPorId(int id)
+        public static Carrera? BuscarPorId(int id)
         {
             var lista = ObtenerCarreras();
-            foreach (var carrera in lista)
-            {
-                if (carrera.Id == id)
-                {
-                    return carrera;
-                }
-            }
-            return null;
+            
+            return BuscarCarreraPorID(lista, id);
         }
         public static void EliminarPorId(int id)
         {
             var lista = ObtenerCarreras();
-            Carrera? carreraAEliminar = null;
-            foreach (var carrera in lista)
-            {
-                if (carrera.Id == id)
-                {
-                    carreraAEliminar = carrera;
-                    break;
-                }
-            }
+            var carreraAEliminar = BuscarCarreraPorID(lista, id);
+            
             if (carreraAEliminar != null)
             {
                 lista.Remove(carreraAEliminar);
@@ -72,23 +59,33 @@ namespace SistemaAcademico_V2.Servicios
         public static void EditarCarrera(Carrera carreraEditada)
         {
             var lista = ObtenerCarreras();
-            foreach(var c in lista)
+            var carrera = BuscarCarreraPorID(lista, carreraEditada.Id);
+
+            if (carrera != null)
             {
-                if (c.Id ==  carreraEditada.Id)
-                {
-                    c.Nombre = carreraEditada.Nombre;
-                    c.Modalidad = carreraEditada.Modalidad;
-                    c.DuracionAnios = carreraEditada.DuracionAnios;
-                    c.TituloOtorgado = carreraEditada.TituloOtorgado;
-                    break;
-                }
+                carrera.Nombre = carreraEditada.Nombre;
+                carrera.Modalidad = carreraEditada.Modalidad;
+                carrera.DuracionAnios = carreraEditada.DuracionAnios;
+                carrera.TituloOtorgado = carreraEditada.TituloOtorgado;
+
+                GuardarCarreras(lista);
             }
-            GuardarCarreras(lista);
         }
         public static void GuardarCarreras(List<Carrera> carreras)
         {
             string textoJson = JsonSerializer.Serialize(carreras);
             File.WriteAllText(ruta, textoJson);
+        }
+        private static Carrera? BuscarCarreraPorID(List<Carrera> lista, int id)
+        {
+            foreach (var carrera in lista)
+            {
+                if (carrera.Id == id)
+                {
+                    return carrera;
+                }
+            }
+            return null;
         }
     }
 }

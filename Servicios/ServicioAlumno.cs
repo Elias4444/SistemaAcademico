@@ -43,27 +43,13 @@ namespace SistemaAcademico_V2.Servicios
         public static Alumno? BuscarPorId(int id)
         {
             var lista = ObtenerAlumnos();
-            foreach (var alumno in lista)
-            {
-                if (alumno.Id == id)
-                {
-                    return alumno;
-                }
-            }
-            return null;
+            return BuscarAlumnoPorId(lista, id);
         }
         public static void EliminarPorId(int id)
         {
             var lista = ObtenerAlumnos();
-            Alumno? alumnoAEliminar = null;
-            foreach (var alumno in lista)
-            {
-                if (alumno.Id == id)
-                {
-                    alumnoAEliminar = alumno;
-                    break;
-                }
-            }
+            var alumnoAEliminar = BuscarAlumnoPorId(lista, id);
+            
             if (alumnoAEliminar  != null)
             {
                 lista.Remove(alumnoAEliminar);
@@ -73,25 +59,33 @@ namespace SistemaAcademico_V2.Servicios
         public static void EditarAlumno(Alumno alumnoEditado)
         {
             var lista = ObtenerAlumnos();
-
-            foreach (var a in lista)
+            var alumno = BuscarAlumnoPorId(lista, alumnoEditado.Id);
+            if (alumno != null)
             {
-                if (a.Id == alumnoEditado.Id)
-                {
-                    a.Nombre = alumnoEditado.Nombre;
-                    a.Apellido = alumnoEditado.Apellido;
-                    a.Dni = alumnoEditado.Dni;
-                    a.Email = alumnoEditado.Email;
-                    a.FechaDeNacimiento = alumnoEditado.FechaDeNacimiento;
-                    break;
-                }
+                alumno.Nombre = alumnoEditado.Nombre;
+                alumno.Apellido = alumnoEditado.Apellido;
+                alumno.Dni = alumnoEditado.Dni;
+                alumno.Email = alumnoEditado.Email;
+                alumno.FechaDeNacimiento = alumnoEditado.FechaDeNacimiento;
+
+                GuardarAlumnos(lista);
             }
-            GuardarAlumnos(lista);
         }
         public static void GuardarAlumnos(List<Alumno> alumnos)
         {
             string textoJson = JsonSerializer.Serialize(alumnos);
             File.WriteAllText(ruta, textoJson);
+        }
+        private static Alumno? BuscarAlumnoPorId(List<Alumno> lista, int id)
+        {
+            foreach (var alumno in lista)
+            {
+                if (alumno.Id == id)
+                {
+                    return alumno;
+                }
+            }
+            return null;
         }
     }
 }
