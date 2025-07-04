@@ -12,6 +12,12 @@ namespace SistemaAcademico_V2.Pages.Carreras
         [BindProperty]
         public Carrera Carrera { get; set; }
         public List<string> Modalidades { get; set; } = new();
+
+        private readonly ServicioCarrera servicio;
+        public CreateModel()
+        {
+            servicio = new ServicioCarrera();
+        }
         public void OnGet()
         {
             Modalidades = OpcionesModalidad.Lista;
@@ -23,7 +29,8 @@ namespace SistemaAcademico_V2.Pages.Carreras
             {
                 return Page();
             }
-            ServicioCarrera.AgregarCarrera(Carrera);
+
+            servicio.Agregar(Carrera);
             return RedirectToPage("Index");
         }
     }

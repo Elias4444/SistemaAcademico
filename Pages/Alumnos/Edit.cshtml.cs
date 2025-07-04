@@ -10,9 +10,15 @@ namespace SistemaAcademico_V2.Pages.Alumnos
     {
         [BindProperty]
         public Alumno Alumno { get; set; }
+
+        private readonly ServicioAlumno servicio;
+        public EditModel()
+        {
+            servicio = new ServicioAlumno();
+        }
         public void OnGet(int id)
         {
-            Alumno? alumno = ServicioAlumno.BuscarPorId(id);
+            Alumno? alumno = servicio.BuscarPorId(id);
             if (alumno != null)
             {
                 Alumno = alumno;
@@ -25,7 +31,7 @@ namespace SistemaAcademico_V2.Pages.Alumnos
                 return Page();
             }
 
-            ServicioAlumno.EditarAlumno(Alumno);
+            servicio.Editar(Alumno);
 
             return RedirectToPage("Index");
         }

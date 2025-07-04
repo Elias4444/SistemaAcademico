@@ -9,9 +9,15 @@ namespace SistemaAcademico_V2.Pages.Carreras
     public class IndexModel : PageModel
     {
         public List<Carrera> Carreras { get; set; }
+
+        private readonly ServicioCarrera servicio;
+        public IndexModel()
+        {
+            servicio = new ServicioCarrera();
+        }
         public void OnGet()
         {
-            Carreras = ServicioCarrera.ObtenerCarreras();
+            Carreras = servicio.ObtenerTodos();
         }
     }
 }

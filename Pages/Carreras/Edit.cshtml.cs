@@ -12,11 +12,17 @@ namespace SistemaAcademico_V2.Pages.Carreras
         [BindProperty]
         public Carrera Carrera { get; set; }
         public List<string> Modalidades { get; set; } = new();
+
+        private readonly ServicioCarrera servicio;
+        public EditModel()
+        {
+            servicio = new ServicioCarrera();
+        }
         public void OnGet(int id)
         {
             Modalidades = OpcionesModalidad.Lista;
 
-            Carrera carrera = ServicioCarrera.BuscarPorId(id);
+            Carrera carrera = servicio.BuscarPorId(id);
             if (carrera != null )
             {
                 Carrera = carrera;
@@ -29,7 +35,7 @@ namespace SistemaAcademico_V2.Pages.Carreras
             {
                 return Page();
             }
-            ServicioCarrera.EditarCarrera(Carrera);
+            servicio.Editar(Carrera);
 
             return RedirectToPage("Index");
         }

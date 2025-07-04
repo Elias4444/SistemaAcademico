@@ -10,6 +10,12 @@ namespace SistemaAcademico_V2.Pages.Alumnos
     {
         [BindProperty]
         public Alumno Alumno { get; set; }
+
+        private readonly ServicioAlumno servicio;
+        public CreateModel()
+        {
+            servicio = new ServicioAlumno();
+        }
         public void OnGet()
         {
         }
@@ -21,7 +27,7 @@ namespace SistemaAcademico_V2.Pages.Alumnos
                 return Page();
             }
 
-            ServicioAlumno.AgregarAlumno(Alumno);
+            servicio.Agregar(Alumno);
 
             return RedirectToPage("Index");
         }
