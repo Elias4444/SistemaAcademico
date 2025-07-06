@@ -1,7 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using SistemaAcademico_V2.Data;
+using SistemaAcademico_V2.AccesoAdatos;
 using SistemaAcademico_V2.Models;
+using SistemaAcademico_V2.Repositorios;
 using SistemaAcademico_V2.Servicios;
 
 namespace SistemaAcademico_V2.Pages.Alumnos
@@ -14,7 +15,9 @@ namespace SistemaAcademico_V2.Pages.Alumnos
         private readonly ServicioAlumno servicio;
         public DeleteModel()
         {
-            servicio = new ServicioAlumno();
+            IAccesoDatos<Alumno> acceso = new AccesoDatosJson<Alumno>("alumnos");
+            IRepositorio<Alumno> repo = new RepositorioCrudJson<Alumno>(acceso);
+            servicio = new ServicioAlumno(repo);
         }
         public IActionResult OnGet(int id)
         {

@@ -1,7 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using SistemaAcademico_V2.Data;
+using SistemaAcademico_V2.AccesoAdatos;
 using SistemaAcademico_V2.Models;
+using SistemaAcademico_V2.Repositorios;
 using SistemaAcademico_V2.Servicios;
 
 namespace SistemaAcademico_V2.Pages.Carreras
@@ -14,7 +15,9 @@ namespace SistemaAcademico_V2.Pages.Carreras
         private readonly ServicioCarrera servicio;
         public DeleteModel()
         {
-            servicio = new ServicioCarrera();
+            IAccesoDatos<Carrera> acceso = new AccesoDatosJson<Carrera>("carreras");
+            IRepositorio<Carrera> repo = new RepositorioCrudJson<Carrera>(acceso);
+            servicio = new ServicioCarrera(repo);
         }
         public IActionResult OnGet(int id)
         {
